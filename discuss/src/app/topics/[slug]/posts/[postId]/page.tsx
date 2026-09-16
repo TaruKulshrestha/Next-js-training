@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import PostShow from "@/components/posts/post-show";
 import PostShowLoading from "@/components/posts/post-show-loading";
 import CommentList from "@/components/comments/comment-list";
+import CommentListLoading from "@/components/comments/comment-list-loading";
 import CommentCreateForm from "@/components/comments/comment-create-form";
 import paths from "@/paths";
 
@@ -25,7 +26,9 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
         <PostShow postId={postId} />
       </Suspense>
       <CommentCreateForm postId={postId} startOpen />
-      <CommentList postId={postId} />
+      <Suspense fallback={<CommentListLoading />}>
+        <CommentList postId={postId} />
+      </Suspense>
     </div>
   );
 }

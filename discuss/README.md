@@ -1,24 +1,28 @@
-# Discuss
+This is a [Next.js](https://nextjs.org) Discuss app (topics, posts, comments, GitHub auth, search).
 
-A Reddit-style discussion app built with Next.js, NextUI, Prisma (SQLite), and NextAuth (GitHub OAuth).
-
-## Setup
+## Getting Started
 
 ```bash
 npm install
-cp .env.example .env
-cp .env.example .env.local
 npx prisma migrate dev
 npm run dev
 ```
 
-### Environment
+Copy `.env.example` to `.env` and `.env.local`, then fill in your Postgres URL, GitHub OAuth credentials, and `AUTH_SECRET`.
 
-- `DATABASE_URL` — SQLite path (default `file:./dev.db`)
-- `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` — from a GitHub OAuth App
-- `AUTH_SECRET` — any long random string
+Open [http://localhost:3000](http://localhost:3000).
 
-GitHub OAuth App settings:
+## Deploy to Vercel with Postgres
 
-- Homepage URL: `http://localhost:3000`
-- Authorization callback URL: `http://localhost:3000/api/auth/callback/github`
+1. Create a Postgres database (Vercel Storage → Postgres, or Neon) and copy `DATABASE_URL`.
+2. Create a GitHub OAuth App:
+   - Homepage URL: `https://YOUR_APP.vercel.app`
+   - Authorization callback URL: `https://YOUR_APP.vercel.app/api/auth/callback/github`
+3. Import the `discuss` folder on [Vercel](https://vercel.com/new).
+4. Set environment variables on the project:
+   - `DATABASE_URL`
+   - `GITHUB_CLIENT_ID`
+   - `GITHUB_CLIENT_SECRET`
+   - `AUTH_SECRET` (run `npx auth secret`)
+   - `AUTH_URL` (`https://YOUR_APP.vercel.app`)
+5. Deploy. The build script runs `prisma generate`, `prisma migrate deploy`, then `next build`.

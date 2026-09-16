@@ -20,7 +20,10 @@ export function fetchPostsBySearchTerm(term: string): Promise<PostWithData[]> {
       _count: { select: { comments: true } },
     },
     where: {
-      OR: [{ title: { contains: term } }, { content: { contains: term } }],
+      OR: [
+        { title: { contains: term, mode: "insensitive" } },
+        { content: { contains: term, mode: "insensitive" } },
+      ],
     },
   });
 }
